@@ -1,34 +1,31 @@
-function removeSlotsCategory() {
-    // Step 1: Find the section containing the div > a > span with text "Top Live Categories"
+const GAMBLING_CONTENT = "Slots & Casino";
+
+function removeGamblingFromTopCategories() {
     const topLiveCategoriesSection = Array.from(document.querySelectorAll('section')).find(section => {
-        // Check if the section contains the specific structure
-        const anchor = section.querySelector('div a span');
-        return anchor && anchor.textContent.trim() === "Top Live Categories";
+        const el = section.querySelector('div a span');
+        return el && el.textContent.trim() === "Top Live Categories";
     });
 
-    // If the section is found
     if (topLiveCategoriesSection) {
-        // Step 2: Find the span containing the text "Slots & Casino" inside this section
         const slotsCategory = Array.from(topLiveCategoriesSection.querySelectorAll('span')).find(span => {
-            return span.textContent.trim() === "Slots & Casino";
+            return span.textContent.trim() === GAMBLING_CONTENT;
         });
 
-        // Step 3: If the "Slots & Casino" span is found, remove it
         if (slotsCategory) {
-            slotsCategory.parentElement?.parentElement?.parentElement?.parentElement?.remove();  // Remove the span element
+            slotsCategory.parentElement?.parentElement?.parentElement?.parentElement?.remove();
         }
     }
 }
 
-function removeRecommendedSlotsChannels() {
+function removeRecommendedGamblingChannels() {
     const recommendationSection = Array.from(document.querySelectorAll('section')).find(section => {
-        const anchor = section.querySelector('div');
-        return anchor && anchor.textContent.trim() === "Recommended";
+        const el = section.querySelector('div');
+        return el && el.textContent.trim() === "Recommended";
     });
 
     if (recommendationSection) {
         const slotsStreams = Array.from(recommendationSection.querySelectorAll('span')).find(span => {
-            return span.textContent.trim() === "Slots & Casino";
+            return span.textContent.trim() === GAMBLING_CONTENT;
         });
 
         if (slotsStreams) {
@@ -38,56 +35,41 @@ function removeRecommendedSlotsChannels() {
 }
 
 function removeGamblingSection() {
-    // Step 1: Find the section containing the div > a > span with text "Top Live Categories"
     const gamblingSection = Array.from(document.querySelectorAll('section')).find(section => {
-        // Check if the section contains the specific structure
-        const anchor = section.querySelector('div a span');
-        return anchor && anchor.textContent.trim() === "Gambling";
+        const el = section.querySelector('div a span');
+        return el && el.textContent.trim() === "Gambling";
     });
 
-
-
-    // Step 3: If the "Slots & Casino" span is found, remove it
     if (gamblingSection) {
-        gamblingSection.remove();  // Remove the span element
+        gamblingSection.remove();
     }
 }
 
-function removeSlotsClips() {
-    // Step 1: Find the section containing "Popular Clips This Week"
+function removeGamblingClips() {
     const clipsSection = Array.from(document.querySelectorAll('section')).find(section => {
-        // Check if the section contains the specific structure
-        const anchor = section.querySelector('div a span');
-        return anchor && anchor.textContent.trim() === "Popular Clips This Week";
+        const el = section.querySelector('div a span');
+        return el && el.textContent.trim() === "Popular Clips This Week";
     });
 
-    // Step 2: If the section is found, find all spans inside it with the text "Slots & Casino"
     if (clipsSection) {
-        const slotsSpans = clipsSection.querySelectorAll('span');
+        const slotsClips = clipsSection.querySelectorAll('span');
 
-        slotsSpans.forEach(span => {
-            if (span.textContent.trim() === "Slots & Casino") {
-                // Remove or hide the span with "Slots & Casino"
-                span.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.remove(); // Hide the span
-                // Or use: span.remove(); // To remove the span entirely
+        slotsClips.forEach(span => {
+            if (span.textContent.trim() === GAMBLING_CONTENT) {
+                span.parentElement?.parentElement?.parentElement?.parentElement?.parentElement?.remove();
             }
         });
     }
 }
 
-// Create a MutationObserver to monitor DOM changes
 const observer = new MutationObserver(() => {
-    removeSlotsCategory();
+    removeGamblingFromTopCategories();
     removeGamblingSection();
-    removeSlotsClips();
-    removeRecommendedSlotsChannels();
+    removeGamblingClips();
+    removeRecommendedGamblingChannels();
 });
 
-// Start observing the body for changes (subtree = watch entire document for changes)
 observer.observe(document.body, {
-    childList: true,  // Observe when child nodes are added or removed
-    subtree: true     // Observe the entire DOM subtree
+    childList: true,
+    subtree: true
 });
-
-// Initial call to remove "Slots & Casino" if already in the DOM
-removeSlotsCategory();
