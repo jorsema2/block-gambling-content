@@ -1,0 +1,28 @@
+{
+    "manifest_version": 3,
+    "name": "Block Gambling Streams",
+    "version": "1.0",
+    "description": "Hides gambling-related streaming content on Twitch, Kick, and similar platforms.",
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "host_permissions": [
+      "*://*.twitch.tv/*",
+      "*://*.kick.com/*"
+    ],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": "icon.png"
+    },
+    "content_scripts": [
+      {
+        "matches": [
+          "*://*.twitch.tv/*",
+          "*://*.kick.com/*"
+        ],
+        "js": ["content.js"]
+      }
+    ]
+  }
+  
