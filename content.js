@@ -1,34 +1,35 @@
-// Function to remove Slots and Casino categories
-function removeCategories() {
-    // Define keywords to identify the unwanted categories
-    const unwantedCategories = ['Slots & Casino'];
-
-    // Select all potential category elements (adjust the selector based on the website's structure)
-    const categories = document.querySelectorAll('span'); // Adjust the tags to match actual elements
-
-    categories.forEach((category) => {
-        if (unwantedCategories.some(keyword => category.textContent.includes(keyword))) {
-            // Find the grandparent of the category element (parent's parent)
-            const grandparent = category.parentElement?.parentElement?.parentElement?.parentElement;
-
-            // If the grandparent exists, hide it
-            if (grandparent) {
-                grandparent.style.display = 'none'; // Hide the grandparent element
-            }
-        }
+function removeSlotsCategory() {
+    // Step 1: Find the section containing the div > a > span with text "Top Live Categories"
+    const topLiveCategoriesSection = Array.from(document.querySelectorAll('section')).find(section => {
+        // Check if the section contains the specific structure
+        const anchor = section.querySelector('div a span');
+        return anchor && anchor.textContent.trim() === "Top Live Categories";
     });
+
+    // If the section is found
+    if (topLiveCategoriesSection) {
+        // Step 2: Find the span containing the text "Slots & Casino" inside this section
+        const slotsCategory = Array.from(topLiveCategoriesSection.querySelectorAll('span')).find(span => {
+            return span.textContent.trim() === "Slots & Casino";
+        });
+
+        // Step 3: If the "Slots & Casino" span is found, remove it
+        if (slotsCategory) {
+            slotsCategory.parentElement?.parentElement?.parentElement?.parentElement?.remove();  // Remove the span element
+        }
+    }
 }
 
-// Observe changes in the DOM to catch dynamic content
+// Create a MutationObserver to monitor DOM changes
 const observer = new MutationObserver(() => {
-    removeCategories();
+    removeSlotsCategory();
 });
 
-// Start observing the entire body for changes
+// Start observing the body for changes (subtree = watch entire document for changes)
 observer.observe(document.body, {
-    childList: true,
-    subtree: true,
+    childList: true,  // Observe when child nodes are added or removed
+    subtree: true     // Observe the entire DOM subtree
 });
 
-// Initial call to remove existing categories on page load
-removeCategories();
+// Initial call to remove "Slots & Casino" if already in the DOM
+removeSlotsCategory();
