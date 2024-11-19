@@ -1,30 +1,34 @@
-// List of keywords to identify gambling content
-const gamblingKeywords = ["slots", "casino", "betting", "roulette", "poker", "blackjack"];
+// Function to remove Slots and Casino categories
+function removeCategories() {
+    // Define keywords to identify the unwanted categories
+    const unwantedCategories = ['Slots & Casino'];
 
-// Function to check if an element contains gambling-related keywords
-function containsGamblingKeywords(text) {
-  return gamblingKeywords.some(keyword => text.toLowerCase().includes(keyword));
+    // Select all potential category elements (adjust the selector based on the website's structure)
+    const categories = document.querySelectorAll('span'); // Adjust the tags to match actual elements
+
+    categories.forEach((category) => {
+        if (unwantedCategories.some(keyword => category.textContent.includes(keyword))) {
+            // Find the grandparent of the category element (parent's parent)
+            const grandparent = category.parentElement?.parentElement?.parentElement?.parentElement;
+
+            // If the grandparent exists, hide it
+            if (grandparent) {
+                grandparent.style.display = 'none'; // Hide the grandparent element
+            }
+        }
+    });
 }
 
-// Function to hide gambling content
-function hideGamblingContent() {
-  // Select all elements that might contain stream titles or tags
-  const streamElements = document.querySelectorAll('[data-a-target="preview-card-title"], [data-test-selector="stream-title"]');
+// Observe changes in the DOM to catch dynamic content
+const observer = new MutationObserver(() => {
+    removeCategories();
+});
 
-  streamElements.forEach(element => {
-    if (containsGamblingKeywords(element.textContent)) {
-      // Hide the parent element containing the stream
-      const parent = element.closest(".tw-card, .stream-card");
-      if (parent) {
-        parent.style.display = "none";
-      }
-    }
-  });
-}
+// Start observing the entire body for changes
+observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+});
 
-// Run the function initially and observe DOM changes
-hideGamblingContent();
-
-// Use a MutationObserver to dynamically detect and hide new content
-const observer = new MutationObserver(hideGamblingContent);
-observer.observe(document.body, { childList: true, subtree: true });
+// Initial call to remove existing categories on page load
+removeCategories();

@@ -1,28 +1,14 @@
 {
-    "manifest_version": 3,
-    "name": "Block Gambling Streams",
-    "version": "1.0",
-    "description": "Hides gambling-related streaming content on Twitch, Kick, and similar platforms.",
-    "permissions": [
-      "activeTab",
-      "scripting"
-    ],
-    "host_permissions": [
-      "*://*.twitch.tv/*",
-      "*://*.kick.com/*"
-    ],
-    "action": {
-      "default_popup": "popup.html",
-      "default_icon": "icon.png"
-    },
-    "content_scripts": [
-      {
-        "matches": [
-          "*://*.twitch.tv/*",
-          "*://*.kick.com/*"
-        ],
-        "js": ["content.js"]
-      }
-    ]
-  }
-  
+  "manifest_version": 3,
+  "name": "Kick Cleaner",
+  "version": "1.0",
+  "description": "Removes Slots and Casino categories from the Kick website.",
+  "permissions": ["scripting"],
+  "host_permissions": ["https://kick.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://kick.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
