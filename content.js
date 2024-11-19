@@ -20,6 +20,23 @@ function removeSlotsCategory() {
     }
 }
 
+function removeRecommendedSlotsChannels() {
+    const recommendationSection = Array.from(document.querySelectorAll('section')).find(section => {
+        const anchor = section.querySelector('div');
+        return anchor && anchor.textContent.trim() === "Recommended";
+    });
+
+    if (recommendationSection) {
+        const slotsStreams = Array.from(recommendationSection.querySelectorAll('span')).find(span => {
+            return span.textContent.trim() === "Slots & Casino";
+        });
+
+        if (slotsStreams) {
+            slotsStreams.parentElement?.parentElement?.parentElement?.remove();  // Remove the span element
+        }
+    }
+}
+
 function removeGamblingSection() {
     // Step 1: Find the section containing the div > a > span with text "Top Live Categories"
     const gamblingSection = Array.from(document.querySelectorAll('section')).find(section => {
@@ -63,6 +80,7 @@ const observer = new MutationObserver(() => {
     removeSlotsCategory();
     removeGamblingSection();
     removeSlotsClips();
+    removeRecommendedSlotsChannels();
 });
 
 // Start observing the body for changes (subtree = watch entire document for changes)
