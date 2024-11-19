@@ -20,9 +20,27 @@ function removeSlotsCategory() {
     }
 }
 
+function removeGamblingSection() {
+    // Step 1: Find the section containing the div > a > span with text "Top Live Categories"
+    const gamblingSection = Array.from(document.querySelectorAll('section')).find(section => {
+        // Check if the section contains the specific structure
+        const anchor = section.querySelector('div a span');
+        return anchor && anchor.textContent.trim() === "Gambling";
+    });
+
+
+
+    // Step 3: If the "Slots & Casino" span is found, remove it
+    if (gamblingSection) {
+        gamblingSection.remove();  // Remove the span element
+    }
+
+}
+
 // Create a MutationObserver to monitor DOM changes
 const observer = new MutationObserver(() => {
     removeSlotsCategory();
+    removeGamblingSection();
 });
 
 // Start observing the body for changes (subtree = watch entire document for changes)
