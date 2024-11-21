@@ -2,15 +2,16 @@ const GAMBLING_CONTENT = "Slots & Casino";
 
 
 function removeGamblingFromDiscoveryQueue() {
-
-
     const node = document.querySelector('#main-container > main > div > div > div.flex.w-full.justify-between > div.flex.w-\\[480px\\].max-w-\\[680px\\].shrink.grow.flex-col.justify-between.pb-2\\.5.pt-7 > div.flex.min-w-0.flex-col.items-start.gap-1\\.5 > div.flex.flex-wrap.items-center.gap-2\\.5 > a > span');
+    const closestVideo = document.querySelector('video');
 
-    if (node && node.textContent.trim() === "Call of Duty: Warzone") {
+    if (node && node.textContent.trim() === GAMBLING_CONTENT) {
         node.parentElement.parentElement.parentElement.style.display = "none";
+        closestVideo.style.display = "none";
 
         setTimeout(() => {
             node.parentElement.parentElement.parentElement.style.display = "inline";
+            closestVideo.style.display = "inline";
         }, 10000);
     }
 }
