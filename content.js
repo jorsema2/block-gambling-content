@@ -6,12 +6,12 @@ function removeGamblingFromDiscoveryQueue() {
     const closestVideo = document.querySelector('video');
 
     if (node && node.textContent.trim() === GAMBLING_CONTENT) {
-        node.parentElement.parentElement.parentElement.style.display = "none";
-        closestVideo.style.display = "none";
+        node.parentElement.parentElement.parentElement.style.visibility= 'hidden';
+        closestVideo.style.visibility= 'hidden';
 
         setTimeout(() => {
-            node.parentElement.parentElement.parentElement.style.display = "inline";
-            closestVideo.style.display = "inline";
+            node.parentElement.parentElement.parentElement.style.visibility= 'visible';
+            closestVideo.style.visibility= 'visible';
         }, 10000);
     }
 }
