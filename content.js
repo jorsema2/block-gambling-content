@@ -1,5 +1,20 @@
 const GAMBLING_CONTENT = "Slots & Casino";
 
+
+function removeGamblingFromDiscoveryQueue() {
+
+
+    const node = document.querySelector('#main-container > main > div > div > div.flex.w-full.justify-between > div.flex.w-\\[480px\\].max-w-\\[680px\\].shrink.grow.flex-col.justify-between.pb-2\\.5.pt-7 > div.flex.min-w-0.flex-col.items-start.gap-1\\.5 > div.flex.flex-wrap.items-center.gap-2\\.5 > a > span');
+
+    if (node && node.textContent.trim() === "Call of Duty: Warzone") {
+        node.style.display = "none";
+
+        setTimeout(() => {
+            node.style.display = "inline";
+        }, 5000);
+    }
+}
+
 function removeGamblingFromTopCategories() {
     const topLiveCategoriesSection = Array.from(document.querySelectorAll('section')).find(section => {
         const el = section.querySelector('div a span');
@@ -63,6 +78,7 @@ function removeGamblingClips() {
 }
 
 const observer = new MutationObserver(() => {
+    removeGamblingFromDiscoveryQueue();
     removeGamblingFromTopCategories();
     removeGamblingSection();
     removeGamblingClips();
